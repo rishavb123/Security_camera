@@ -11,3 +11,4 @@ def get_info():
 
     current_time = time.asctime()
     return current_time, place
+print 'you just imported me'
