@@ -1,11 +1,10 @@
 __author__ = 'Bhagat'
 import smtplib
+import encoder
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
-import encoder
-import cv2
 
 def email(message,subject,files=['none'],email_user = 'pythonemailsender1@gmail.com',email_password_encoded = '<sm~7tyu',email_send = 'rishavb123@gmail.com'):
 
