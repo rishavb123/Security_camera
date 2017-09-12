@@ -2,12 +2,12 @@ __author__ = 'Bhagat'
 import cv2
 import time
 import speech
+import numpy as np
+import os
 from multiprocessing import Process
 from emailer import email
 from information import get_info
 from face_checker import face_checker
-import numpy as np
-import os
 
 
 def security_cam(cam_num = 0):

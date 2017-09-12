@@ -2,6 +2,7 @@ __author__ = 'Bhagat'
 import time
 import geocoder
 from requests.exceptions import ConnectionError
+
 def get_info():
     try:
         g = geocoder.ip('me')
