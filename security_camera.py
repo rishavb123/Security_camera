@@ -12,7 +12,7 @@ from face_checker import face_checker
 
 def security_cam(cam_num = 0):
 
-    armed = True
+    armed = False
     space = 0
     caught = False
     face = False
@@ -56,7 +56,8 @@ def security_cam(cam_num = 0):
             if not same:
                 count+=1
                 if not armed:
-                    print count
+                    pass
+                    # print count
             else:
                 count = 0
             space+=1
@@ -81,7 +82,21 @@ def security_cam(cam_num = 0):
             key = cv2.waitKey(1)
             if key == 113:
                 armed = False
-            if key == 32 and not armed:
+            go_arm = True
+            if not armed:
+                for x in range(len(frame)):
+                    for y in range(len(frame[x])):
+                        for z in range(len(frame[x][y])):
+                            if frame[x][y][z]>50:
+                                go_arm = False
+                                print frame[x][y][z]
+                            if not go_arm:
+                                break
+                        if not go_arm:
+                            break
+                    if not go_arm:
+                        break
+            if  go_arm and not armed:
                 speech.say('You have 60 seconds until the camera is armed')
                 time.sleep(30)
                 speech.say('30 seconds')

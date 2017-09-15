@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Camera/.idea/Camera.iml" filepath="$PROJECT_DIR$/../Camera/.idea/Camera.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Security_camera.iml" filepath="$PROJECT_DIR$/.idea/Security_camera.iml" />
     </modules>
   </component>
