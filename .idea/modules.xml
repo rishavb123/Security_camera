@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Camera/.idea/Camera.iml" filepath="$PROJECT_DIR$/../Camera/.idea/Camera.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Security_camera.iml" filepath="$PROJECT_DIR$/.idea/Security_camera.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../facial_recognition/.idea/facial_recognition.iml" filepath="$PROJECT_DIR$/../facial_recognition/.idea/facial_recognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../facial_recognition - Sqlite/.idea/facial_recognition.iml" filepath="$PROJECT_DIR$/../facial_recognition - Sqlite/.idea/facial_recognition.iml" />
     </modules>
   </component>
 </project>

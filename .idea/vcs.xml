@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$/../Camera" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../facial_recognition - Sqlite" vcs="Git" />
   </component>
 </project>
 

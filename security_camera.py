@@ -89,14 +89,14 @@ def security_cam(cam_num = 0):
                         for z in range(len(frame[x][y])):
                             if frame[x][y][z]>50:
                                 go_arm = False
-                                print frame[x][y][z]
+
                             if not go_arm:
                                 break
                         if not go_arm:
                             break
                     if not go_arm:
                         break
-            if  go_arm and not armed:
+            if go_arm and not armed:
                 speech.say('You have 60 seconds until the camera is armed')
                 time.sleep(30)
                 speech.say('30 seconds')
