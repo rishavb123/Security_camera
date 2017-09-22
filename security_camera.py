@@ -8,17 +8,23 @@ from multiprocessing import Process
 from emailer import email
 from information import get_info
 from face_checker import face_checker
+from accessing_google_drive import update
 
 
 def security_cam(cam_num = 0):
 
+    file = open('armed.txt','w')
+    file.write('disarm')
+    file.close()
     armed = False
     space = 0
     caught = False
     face = False
+    finish = False
     face_frame = ''
     delete = []
     max = 0
+    place=''
 
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     fourcc2 = cv2.VideoWriter_fourcc(*'XVID')
@@ -38,6 +44,8 @@ def security_cam(cam_num = 0):
 
     while True:
         tf, frame = cam.read()
+        n+=1
+        print armed
         if not caught:
             same = True
             counter = 0
@@ -61,6 +69,27 @@ def security_cam(cam_num = 0):
             else:
                 count = 0
             space+=1
+            file = open('armed.txt')
+            action = file.read()
+            file.close()
+            if action=='turn off':
+                finish= True
+                speech.say('goodbye')
+                break
+            elif action=='arm' and not armed:
+                speech.say('You have 30 seconds until the camera is armed')
+                time.sleep(15)
+                speech.say('15 seconds')
+                time.sleep(10)
+                speech.say('5')
+                time.sleep(5)
+                speech.say('armed')
+                armed=True
+                space=0
+            elif action=='disarm' and armed:
+                speech.say('disarmed')
+                armed = False
+                space=0
             if count>3 and armed and space>2:
                 caught = True
                 start = time.time()
@@ -147,41 +176,42 @@ def security_cam(cam_num = 0):
                       delete[a]='none'
                     else:
                         bob = True
-    files = delete
-    files.append('video_evidence.avi')
-    files.append('difference_video_evidence.avi')
-    if place is '':
-        if 'face0.jpg' in delete:
-            files.append('face_video_evidence.avi')
-            if max==1:
-                string='a PERSON'
+    if not finish:
+        files = delete
+        files.append('video_evidence.avi')
+        files.append('difference_video_evidence.avi')
+        if place is '':
+            if 'face0.jpg' in delete:
+                files.append('face_video_evidence.avi')
+                if max==1:
+                    string='a PERSON'
+                else:
+                    string = str(max)+' PEOPLE'
+                email('Motion was detected by '+string+' on '+current_time,'MOTION DETECTED!!!!!',files=files)
+                os.remove('E:\Comp Sci\Python\Security_camera\\face_picture.jpg')
             else:
-                string = str(max)+' PEOPLE'
-            email('Motion was detected by '+string+' on '+current_time,'MOTION DETECTED!!!!!',files=files)
-            os.remove('E:\Comp Sci\Python\Security_camera\\face_picture.jpg')
+                email('Motion was detected on '+current_time,'MOTION DETECTED!!!!!',files=files)
         else:
-            email('Motion was detected on '+current_time,'MOTION DETECTED!!!!!',files=files)
-    else:
-        if 'face0.jpg' in delete:
-            files.append('face_video_evidence.avi')
-            if max==1:
-                string='a PERSON'
+            if 'face0.jpg' in delete:
+                files.append('face_video_evidence.avi')
+                if max==1:
+                    string='a PERSON'
+                else:
+                    string = str(max)+' PEOPLE'
+                email('Motion was detected by '+string+' on '+current_time+' near '+place,'MOTION DETECTED!!!!!',files=files)
+                os.remove('E:\Comp Sci\Python\Security_camera\\face_picture.jpg')
             else:
-                string = str(max)+' PEOPLE'
-            email('Motion was detected by '+string+' on '+current_time+' near '+place,'MOTION DETECTED!!!!!',files=files)
-            os.remove('E:\Comp Sci\Python\Security_camera\\face_picture.jpg')
-        else:
-            email('Motion was detected on '+current_time+' near '+place,'MOTION DETECTED!!!!!',files=files)
-    try:
-        for string in delete:
-            if string is not 'none':
-                os.remove('E:\Comp Sci\Python\Security_camera\\'+string)
-    except WindowsError:
-        pass
+                email('Motion was detected on '+current_time+' near '+place,'MOTION DETECTED!!!!!',files=files)
+        try:
+            for string in delete:
+                if string is not 'none':
+                    os.remove('E:\Comp Sci\Python\Security_camera\\'+string)
+        except WindowsError:
+            pass
     cam.release()
     cv2.destroyAllWindows()
     #os.remove('E:\Comp Sci\Python\Security_camera\\video_evidence.avi')
 
 if __name__ =='__main__':
     Process(target=security_cam).start()
-    #Process(target=security_cam).start()
+    Process(target=update).start()
