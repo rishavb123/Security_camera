@@ -7,7 +7,7 @@ def face_checker(img):
 
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
-    faces_detect = face_csc.detectMultiScale(gray,random.randrange(10,20)/10.0,4)
+    faces_detect = face_csc.detectMultiScale(gray,random.randrange(11,20)/10.0,4)
     face = False
 
     temp = img

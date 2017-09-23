@@ -11,6 +11,8 @@ def update():
     client = gspread.authorize(creds)
 
     sheet = client.open('Security-camera (Responses)').sheet1
+    result = sheet.get_all_records()
+    sheet.update_cell(len(result)+1,2,'disarm')
     leng=0
     action = 0
     while True:
@@ -20,7 +22,6 @@ def update():
             password = result[len(result)-1]['Activation-Key: '].lower()
             email = result[len(result)-1]['Email: ']
             done = result[len(result)-1]['Done:']
-
             if password==decode('mwj%w|xfhfxit%xu') and done=='Not Done':
                 file = open('armed.txt','w')
                 file.write(action)
@@ -34,7 +35,7 @@ def update():
                             mail('Your action has been completed\nThe security camera has been '+action+'ed','ACTION COMPLETED',email_send=email)
                     except SMTPRecipientsRefused:
                         pass
-            elif done!='Done':
+            elif done=='Not Done':
                 sheet.update_cell(len(result)+1,5,'Incorrect Key')
         leng=len(result)
         if action=='turn off':
