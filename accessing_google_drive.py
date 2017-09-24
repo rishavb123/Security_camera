@@ -27,6 +27,7 @@ def update():
                 file.write(action)
                 file.close()
                 sheet.update_cell(len(result)+1,5,'Done')
+                print action
                 if email!='':
                     try:
                         if action=='turn off':

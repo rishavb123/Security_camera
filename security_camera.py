@@ -46,22 +46,22 @@ def security_cam(cam_num = 0):
         while True:
             tf, frame = cam.read()
             n+=1
-            print armed, caught
             if not caught and tf:
                 same = True
                 counter = 0
-                for x in range(len(frame)):
-                    for y in range(len(frame[x])):
-                        for z in range(len(frame[x][y])):
-                            if not frame[x][y][z]-30<old_frame[x][y][z]<frame[x][y][z]+30:
-                                counter+=1
-                            if counter>200:
-                                same=False
+                if armed:
+                    for x in range(len(frame)):
+                        for y in range(len(frame[x])):
+                            for z in range(len(frame[x][y])):
+                                if not frame[x][y][z]-30<old_frame[x][y][z]<frame[x][y][z]+30:
+                                    counter+=1
+                                if counter>200:
+                                    same=False
+                                    break
+                            if not same:
                                 break
                         if not same:
                             break
-                    if not same:
-                        break
                 if not same:
                     count+=1
                     if not armed:
@@ -88,6 +88,9 @@ def security_cam(cam_num = 0):
                     space=0
                 elif action=='disarm' and armed:
                     speech.say('disarmed')
+                    file = open('armed.txt','w')
+                    file.write('none')
+                    file.close()
                     armed = False
                     space=0
                 if count>3 and armed and space>2:
@@ -114,8 +117,6 @@ def security_cam(cam_num = 0):
                             for z in range(len(frame[x][y])):
                                 if frame[x][y][z]>50:
                                     go_arm = False
-
-                                if not go_arm:
                                     break
                             if not go_arm:
                                 break
